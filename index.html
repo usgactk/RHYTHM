@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Rhythm - Pro Edition</title>
+    <title>Rhythm - Final Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -303,7 +303,6 @@
                 noteIdx++; score++;
                 scoreDisplay.innerText = score;
 
-                // Anlık Rekor Güncelleme
                 if (score > currentBest) {
                     currentBest = score;
                     highScoreVal.innerText = currentBest;
@@ -334,11 +333,14 @@
             level++;
             levelVal.innerText = level;
 
-            // HIZ MANTIĞI GÜNCELLEMESİ
+            // HIZ MANTIĞI GÜNCELLEMESİ (İstediğin Baremlere Göre)
             if (level === 2) speed = 6.0;
             else if (level === 3) speed = 7.0;
             else if (level === 4) speed = 8.0;
-            else if (level >= 5) speed += 1.0; // Her seviye 1 artan hız
+            else if (level === 5) speed = 9.0;
+            else if (level === 6) speed = 10.0;
+            else if (level === 7) speed = 11.0;
+            else if (level >= 8) speed += 0.5; // 7. Seviyeden sonra +0.5 artış
 
             updateTheme();
             toast.innerText = "SEVİYE " + level;
@@ -385,7 +387,9 @@
         function loop() {
             if (!gameActive) return;
             if (!isPaused) spawnTile();
-            setTimeout(loop, Math.max(120, 900 - (speed * 60))); // Hız arttıkça gelme süresi de kısalır
+            // Notanın gelme sıklığını hızla orantılı ayarla
+            let spawnDelay = Math.max(100, 900 - (speed * 60));
+            setTimeout(loop, spawnDelay);
         }
 
         function endGame() {
